@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f2f5ef">
+  <title>TaskApp | Tu espacio de trabajo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f2f5ef;
+      --surface: #ffffff;
+      --ink: #1d2924;
+      --muted: #718078;
+      --line: #dce4dc;
+      --green: #2f624d;
+      --green-deep: #234b3b;
+      --lime: #d7ed91;
+      --coral: #ef8968;
+      --shadow: 0 24px 70px rgba(34, 62, 47, 0.09);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-width: 320px;
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      background-color: var(--paper);
+      background-image: repeating-linear-gradient(0deg, transparent 0, transparent 39px, rgba(47, 98, 77, 0.035) 40px);
+      font-family: "DM Sans", sans-serif;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .page-frame {
+      width: min(1120px, calc(100% - 64px));
+      min-height: 100vh;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      min-height: 88px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(47, 98, 77, 0.14);
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--ink);
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 19px;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 6px;
+      background: var(--green);
+      color: var(--lime);
+      font-size: 17px;
+    }
+
+    .topbar-note,
+    .eyebrow {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+
+    .topbar-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .status-mark {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      background: var(--coral);
+      transform: rotate(45deg);
+    }
+
+    .main-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(380px, 1.1fr);
+      align-items: center;
+      gap: clamp(48px, 9vw, 128px);
+      padding: 72px 5.5%;
+    }
+
+    .intro {
+      position: relative;
+      padding: 10px 0 34px;
+    }
+
+    .intro::before {
+      width: 42px;
+      height: 5px;
+      position: absolute;
+      top: -18px;
+      left: 0;
+      background: var(--coral);
+      content: "";
+    }
+
+    .eyebrow {
+      margin: 0 0 20px;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-family: "Space Grotesk", sans-serif;
+    }
+
+    h1 {
+      max-width: 440px;
+      margin-bottom: 24px;
+      font-size: clamp(38px, 5vw, 64px);
+      line-height: 1.04;
+      font-weight: 600;
+    }
+
+    .intro-rule {
+      width: 100%;
+      max-width: 310px;
+      height: 1px;
+      margin: 30px 0 0;
+      background: var(--line);
+    }
+
+    .intro-index {
+      margin: 15px 0 0;
+      color: var(--muted);
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .panel {
+      width: 100%;
+      padding: clamp(28px, 4vw, 44px);
+      border: 1px solid rgba(47, 98, 77, 0.11);
+      border-top: 4px solid var(--green);
+      border-radius: 7px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      animation: arrive 420ms ease-out both;
+    }
+
+    .panel h2 {
+      margin-bottom: 8px;
+      font-size: 27px;
+      line-height: 1.2;
+    }
+
+    .panel-kicker {
+      margin-bottom: 30px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .form-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field label {
+      color: #435149;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .field input {
+      width: 100%;
+      min-height: 48px;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      outline: none;
+      background: #fbfcfa;
+      color: var(--ink);
+      transition: border-color 160ms ease, box-shadow 160ms ease, background 160ms ease;
+    }
+
+    .field input::placeholder {
+      color: #9aa79f;
+    }
+
+    .field input:focus {
+      border-color: var(--green);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(47, 98, 77, 0.12);
+    }
+
+    .primary-button {
+      min-height: 49px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 0 17px;
+      border: 0;
+      border-radius: 4px;
+      background: var(--green);
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+      transition: background 160ms ease, transform 160ms ease;
+    }
+
+    .primary-button:hover {
+      background: var(--green-deep);
+      transform: translateY(-1px);
+    }
+
+    .primary-button:focus-visible {
+      outline: 3px solid var(--lime);
+      outline-offset: 3px;
+    }
+
+    .button-arrow {
+      color: var(--lime);
+      font-size: 19px;
+      line-height: 1;
+    }
+
+    #tasks {
+      grid-column: 1 / -1;
+      width: min(760px, 100%);
+      justify-self: center;
+    }
+
+    .task-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 12px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .task-form .field {
+      min-width: 0;
+    }
+
+    .task-form .primary-button {
+      min-width: 126px;
+    }
+
+    .list-heading {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 26px 0 12px;
+    }
+
+    .list-heading h3 {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .list-heading span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    #taskList {
+      display: grid;
+      gap: 9px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    #taskList li {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      padding: 11px 14px;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--lime);
+      border-radius: 3px;
+      background: #fbfcfa;
+      overflow-wrap: anywhere;
+      animation: arrive 220ms ease-out both;
+    }
+
+    .page-footer {
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border-top: 1px solid rgba(47, 98, 77, 0.14);
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .page-footer strong {
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    @keyframes arrive {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 760px) {
+      .page-frame {
+        width: min(100% - 36px, 540px);
+      }
+
+      .topbar {
+        min-height: 72px;
+      }
+
+      .main-grid {
+        grid-template-columns: 1fr;
+        gap: 34px;
+        padding: 58px 0;
+      }
+
+      .intro {
+        padding-bottom: 0;
+      }
+
+      .intro::before {
+        top: -14px;
+      }
+
+      .eyebrow {
+        margin-bottom: 14px;
+      }
+
+      h1 {
+        max-width: 540px;
+        margin-bottom: 0;
+        font-size: 42px;
+      }
+
+      .intro-rule,
+      .intro-index {
+        display: none;
+      }
+
+      #tasks {
+        grid-column: auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .page-frame {
+        width: calc(100% - 28px);
+      }
+
+      .topbar-note {
+        font-size: 10px;
+        letter-spacing: 0;
+      }
+
+      .main-grid {
+        gap: 27px;
+        padding: 44px 0;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+
+      .panel {
+        padding: 25px 20px;
+      }
+
+      .task-form {
+        grid-template-columns: 1fr;
+      }
+
+      .task-form .primary-button {
+        width: 100%;
+      }
+
+      .page-footer {
+        min-height: 52px;
+        font-size: 10px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-frame">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="TaskApp, inicio">
+        <span class="brand-mark" aria-hidden="true">T</span>
+        <span>TaskApp</span>
+      </a>
+      <span class="topbar-note"><span class="status-mark" aria-hidden="true"></span>Espacio personal</span>
+    </header>
+
+    <main class="main-grid">
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow">Tu espacio de trabajo</p>
+        <h1 id="page-title">Haz espacio para lo importante</h1>
+        <div class="intro-rule" aria-hidden="true"></div>
+        <p class="intro-index">01 <span aria-hidden="true">/</span> 01</p>
+      </section>
+
+      <section id="login" class="panel" aria-labelledby="login-title">
+        <p class="eyebrow">Acceso</p>
+        <h2 id="login-title">Bienvenido de nuevo</h2>
+        <p class="panel-kicker">Inicia sesión en tu espacio personal.</p>
+        <form class="form-stack" onsubmit="login(); return false;">
+          <div class="field">
+            <label for="email">Correo electrónico</label>
+            <input id="email" name="email" type="email" placeholder="tu@correo.com" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="password">Contraseña</label>
+            <input id="password" name="password" type="password" placeholder="••••••••" autocomplete="current-password" required>
+          </div>
+          <button class="primary-button" type="submit">
+            <span>Ingresar</span><span class="button-arrow" aria-hidden="true">→</span>
+          </button>
+        </form>
+      </section>
+
+      <section id="tasks" class="panel" style="display:none;" aria-labelledby="tasks-title">
+        <p class="eyebrow">Tu lista</p>
+        <h2 id="tasks-title">Nueva tarea</h2>
+        <p class="panel-kicker">Añade una tarea a tu lista.</p>
+        <form class="task-form" onsubmit="createTask(); return false;">
+          <div class="field">
+            <label for="taskTitle">Título de la tarea</label>
+            <input id="taskTitle" name="taskTitle" type="text" placeholder="¿Qué tienes pendiente?" required>
+          </div>
+          <button class="primary-button" type="submit">
+            <span>Crear tarea</span><span class="button-arrow" aria-hidden="true">+</span>
+          </button>
+        </form>
+        <div class="list-heading">
+          <h3>Listado</h3>
+          <span>Actividad</span>
+        </div>
+        <ul id="taskList" aria-live="polite"></ul>
+      </section>
+    </main>
+
+    <footer class="page-footer">
+      <span>Un paso a la vez.</span>
+      <span><strong>TASKAPP</strong> <span aria-hidden="true">·</span> 2026</span>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

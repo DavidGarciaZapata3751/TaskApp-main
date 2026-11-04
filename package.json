@@ -1,0 +1,15 @@
+{
+  "name": "taskapp",
+  "version": "1.0.0",
+  "description": "Aplicación estable para pruebas E2E con Cypress",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "cypress": "^16.2.1"
+  }
+}
